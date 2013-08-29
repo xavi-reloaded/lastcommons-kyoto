@@ -15,8 +15,11 @@
  */
 package fm.last.commons.kyoto.factory;
 
-import static fm.last.commons.kyoto.factory.IncrementBehaviour.ALWAYS_SET_VALUE;
-import static fm.last.commons.kyoto.factory.IncrementBehaviour.ERROR_ON_KEY_MISS;
+import fm.last.commons.kyoto.*;
+import fm.last.commons.kyoto.factory.ErrorHandler.ErrorSource;
+import kyotocabinet.DB;
+import kyotocabinet.Error;
+import kyotocabinet.FileProcessor;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,25 +29,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import kyotocabinet.DB;
-import kyotocabinet.Error;
-import kyotocabinet.FileProcessor;
-import fm.last.commons.kyoto.AccessType;
-import fm.last.commons.kyoto.Atomicity;
-import fm.last.commons.kyoto.Codec;
-import fm.last.commons.kyoto.DbType;
-import fm.last.commons.kyoto.KyotoCursor;
-import fm.last.commons.kyoto.KyotoDb;
-import fm.last.commons.kyoto.KyotoFileProcessor;
-import fm.last.commons.kyoto.MergeType;
-import fm.last.commons.kyoto.ReadOnlyStringVisitor;
-import fm.last.commons.kyoto.ReadOnlyVisitor;
-import fm.last.commons.kyoto.Synchronization;
-import fm.last.commons.kyoto.WritableStringVisitor;
-import fm.last.commons.kyoto.WritableVisitor;
-import fm.last.commons.kyoto.factory.ErrorHandler.ErrorSource;
+import static fm.last.commons.kyoto.factory.IncrementBehaviour.ALWAYS_SET_VALUE;
+import static fm.last.commons.kyoto.factory.IncrementBehaviour.ERROR_ON_KEY_MISS;
 
-class KyotoDbImpl implements KyotoDb {
+public class KyotoDbImpl implements KyotoDb {
 
   private static final Charset UTF_8 = Charset.forName("UTF-8");
 
@@ -57,7 +45,7 @@ class KyotoDbImpl implements KyotoDb {
   private Charset encoding;
   private volatile boolean open;
 
-  KyotoDbImpl(DbType dbType, final DB delegate, String descriptor, Set<Mode> modes, File file) {
+  public KyotoDbImpl(DbType dbType, final DB delegate, String descriptor, Set<Mode> modes, File file) {
     this.dbType = dbType;
     this.delegate = delegate;
     this.descriptor = descriptor;

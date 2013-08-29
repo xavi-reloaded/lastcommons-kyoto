@@ -15,25 +15,9 @@
  */
 package fm.last.commons.kyoto.factory;
 
-import static fm.last.commons.kyoto.test.IsConsideredToBe.isConsideredToBe;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.junit.Assert.assertThat;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
+import fm.last.commons.kyoto.*;
+import fm.last.commons.test.file.TemporaryFolder;
 import kyotocabinet.DB;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -41,12 +25,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import fm.last.commons.kyoto.Codec;
-import fm.last.commons.kyoto.DbType;
-import fm.last.commons.kyoto.KyotoDb;
-import fm.last.commons.kyoto.KyotoException;
-import fm.last.commons.kyoto.ReadOnlyVisitor;
-import fm.last.commons.test.file.TemporaryFolder;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.*;
+
+import static fm.last.commons.kyoto.test.IsConsideredToBe.isConsideredToBe;
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.junit.Assert.assertThat;
 
 @RunWith(MockitoJUnitRunner.class)
 public class KyotoDbImplTest {
@@ -67,8 +55,7 @@ public class KyotoDbImplTest {
     File file = temporaryFolder.newFile("KyotoDbImplTest.kch");
     db = new DB();
     db.open(file.getAbsolutePath(), DB.OCREATE | DB.OWRITER);
-    kyotoDb = new KyotoDbImpl(DbType.FILE_HASH, db, file.getAbsolutePath(), EnumSet.of(Mode.CREATE, Mode.READ_WRITE),
-        file);
+    kyotoDb = new KyotoDbImpl(DbType.FILE_HASH, db, file.getAbsolutePath(), EnumSet.of(Mode.CREATE, Mode.READ_WRITE), file);
   }
 
   @After
